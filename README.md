@@ -1,12 +1,13 @@
+```
 /usr/local/bin/start_quake_servers.sh
 /etc/systemd/system/quake_servers.service
 /home/lanparty/Steam/steamapps/common/Quake Live Dedicated Server/start_ql_ca.sh
 /home/lanparty/Steam/steamapps/common/Quake Live Dedicated Server/start_ql_ctf.sh
-
+```
 
 ToDo:
 
-- Create GIT repo
+[x] Create GIT repo
 - Installers:
     - Steam and QuakeLive Installer with minqlx support (Redis, python, etc)
     - ioQuake3 installer and dependencies
