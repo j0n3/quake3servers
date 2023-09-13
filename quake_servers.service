@@ -1,0 +1,16 @@
+[Unit]
+Description=Start Quake Servers in tmux session (QuakeServers)
+After=network.target
+
+[Service]
+Type=forking
+User=lanparty
+WorkingDirectory=/usr/local/bin
+ExecStart=/usr/local/bin/start_quake_servers.sh
+ExecStop=tmux kill-session -t QuakeServers
+Restart=on-failure
+TTYPath=/dev/tty1
+TTYVHangup=yes
+
+[Install]
+WantedBy=multi-user.target
