@@ -3,15 +3,12 @@
 # Install system dependencies
 sudo apt install tmux git python3 python3-pip python3-redis build-essential zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libsqlite3-dev libreadline-dev libffi-dev curl libbz2-dev gcc lib32gcc-s1 ca-certificates python3-distutils python3-dev ioquake3 quake3
 
-
 # Setup avahi
 
 # Add hostname to /etc/hosts if not present
 
-
 # Install dpmaster
 git clone https://github.com/kphillisjr/dpmaster/
-
 
 sudo ln -s quake_servers.service /etc/systemd/system/quake_servers.service
 sudo ln -s quake_servers.conf /etc/quake_servers.conf
