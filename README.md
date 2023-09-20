@@ -1,34 +1,35 @@
-```
-/usr/local/bin/start_quake_servers.sh
-/etc/systemd/system/quake_servers.service
-/home/lanparty/Steam/steamapps/common/Quake Live Dedicated Server/start_ql_ca.sh
-/home/lanparty/Steam/steamapps/common/Quake Live Dedicated Server/start_ql_ctf.sh
-```
+TODO:
 
-ToDo:
+- keep all the files (git) into any folder (like /home/lanparty/src/quake3servers)
+- Create installer symbolic lynks
+    - /usr/local/games/quake3servers pointing to quake3servers repo folder
+    - .service -> systemd
+    - .conf -> etc
+    - edit service to run launcher
 
-[x] Create GIT repo
-- Installers:
-    - Steam and QuakeLive Installer with minqlx support (Redis, python, etc)
-    - ioQuake3 installer and dependencies
-    - quake3 + pointrelease 1.32c for RA3
+- Create all the installers
+    - Steam + Quakelive + minqlx + plugins + python + all other system dependencies
+    - dpmaster
+        - clone repo
+        - build
+        - create symbolic lynk to /usr/local/bin
+    - Install quake3 + point release 1.32c (first it has to be 1.32b?)
+        - ra3
+    - Install ioquake3
+        - osp
+    - config files
+    - extra maps
+    - extra mods
 
-- Can we make ioQuake3 to work for RA3?
+- Create other server mods
+    - instagib
+    - freeze tag
+    - defrag/race
+    - red rover
+    - More mods for QL (requires workshop items) https://steamcommunity.com/app/282440/discussions/0/490125103624446696/
 
-- Separate methods to startup servers
+- Fixes
+    - RA3 autoexec is not loaded so can't place 200-100, falling damage... :(
 
-- Per Server Type:
-
-    - RA3 
-        - arena.cfg is not loaded! Check startup log: Error: Couldn't load arena/arena.cfg (WHYYY??)
-        - Make it work with ioQuake3
-
-    - OSP
-        - Add tournament maps
-        - Setup maprotation and map setup for Tournaments
-
-    - QL CA
-        - Minqlx plugins and workshop items
-        - NTH: Local stats
-
-    - QL CTF
+- NTH:
+    Web server to spawn or kill servers. Also rcon commands

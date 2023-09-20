@@ -1,44 +1,47 @@
 #!/bin/bash
 
-MY_IP=$(hostname -I | awk '{print $1}')
+source /etc/quake_servers.conf
 
-SESSION="QuakeServers"
+MY_LAN_IP=$(hostname -I | awk '{print $1}')
+MY_INTERNET_IP=$(curl -s https://ipecho.net/plain)
 
-OSP_1V1_CMD="/usr/lib/ioquake3/ioq3ded +set fs_game osp +set vm_game 0 +set sv_pure 0 +set bot_enable 0 +set sv_punkbuster 0 +set dedicated 2 +set sv_master1 \"$MY_IP:27950\" +set sv_master2 '' +set sv_master3 '' +set sv_master4 '' +set sv_master5 '' +exec 1v1.cfg"
-OSP_1V1_PORTS=(27970 27971 27972 27973)
-RA3_CA_CMD="/usr/local/games/quake3/q3ded +set fs_game arena +set vm_game 0 +set sv_pure 0 +set bot_enable 0 +set sv_punkbuster 0 +set dedicated 2 +set sv_master1 \"$MY_IP:27950\" +set sv_master2 '' +set sv_master3 '' +set sv_master4 '' +set sv_master5 '' +set net_port 27980 +set sv_hostname 'Lanparty RA3' +exec server.cfg"
-QL_CA_CMD="/home/lanparty/Steam/steamapps/common/Quake\ Live\ Dedicated\ Server/start_ql_ca.sh 27960"
-QL_CTF_CMD="/home/lanparty/Steam/steamapps/common/Quake\ Live\ Dedicated\ Server/start_ql_ctf.sh 27961"
-MY_PUBLIC_IP=$(curl -s https://ipecho.net/plain)
+IOQ3_CMD="$Q3SERVERS_HOME/start_ioq3.sh"
+Q3_CMD="$Q3SERVERS_HOME/start_q3.sh"
+QL_CMD="$Q3SERVERS_HOME/start_ql.sh"
 
-tmux -u new-session -d -s $SESSION /bin/bash
+start_servers() {
+    local cmd="$1"
+    local game_type="$2"
+    shift 2
+    local ports=("$@")
+
+    for i in "${!ports[@]}"; do
+        tmux split-window -v -t $Q3SERVERS_TMUX_SESSION /bin/bash
+        tmux send-keys "$cmd $game_type ${ports[$i]}" C-m
+        tmux select-pane -T "$game_type $(($i + 1)) ${ports[$i]}" 
+        tmux select-layout tiled
+    done
+}
+
+tmux -u new-session -d -s $Q3SERVERS_TMUX_SESSION /bin/bash
 
 # Start master server
-tmux send-keys "dpmaster -l 0.0.0.0:27950 -m $MY_IP=$MY_PUBLIC_IP" C-m 
-tmux split-window -v -t $SESSION /bin/bash
+tmux send-keys "dpmaster -l 0.0.0.0:27950 -m $MY_LAN_IP=$MY_INTERNET_IP" C-m 
+tmux split-window -v -t $Q3SERVERS_TMUX_SESSION /bin/bash
 tmux send-keys "htop -s PERCENT_CPU" C-m 
 tmux select-pane -T "Master server" 
 
-# Start 1v1 servers
-for i in "${!OSP_1V1_PORTS[@]}"; do
-	tmux split-window -v -t $SESSION /bin/bash
-	tmux send-keys "$OSP_1V1_CMD +set net_port ${OSP_1V1_PORTS[$i]} +set sv_hostname \"Lanparty OSP 1v1 $(($i + 1)) ${OSP_1V1_PORTS[$i]}\"" C-m
-	tmux select-pane -T "1v1 $(($i + 1)) ${OSP_1V1_PORTS[$i]}" 
-	tmux select-layout tiled
-done
+IFS=' ' read -ra Q3SERVERS_IOQ3_1V1_PORTS <<< "$Q3SERVERS_IOQ3_1V1_PORTS"
+IFS=' ' read -ra Q3SERVERS_Q3_RA3_PORTS <<< "$Q3SERVERS_Q3_RA3_PORTS"
+IFS=' ' read -ra Q3SERVERS_QL_CA_PORTS <<< "$Q3SERVERS_QL_CA_PORTS"
+IFS=' ' read -ra Q3SERVERS_QL_CTF_PORTS <<< "$Q3SERVERS_QL_CTF_PORTS"
 
-tmux split-window -v -t $SESSION /bin/bash
-tmux send-keys "$RA3_CA_CMD" C-m
-tmux select-pane -T "RA3 27980"
-tmux select-layout tiled
+# Start servers
+start_servers "$IOQ3_CMD" "1v1" "${Q3SERVERS_IOQ3_1V1_PORTS[@]}"
+start_servers "$Q3_CMD" "RA3" "${Q3SERVERS_Q3_RA3_PORTS[@]}"
+start_servers "$QL_CMD" "CA" "${Q3SERVERS_QL_CA_PORTS[@]}"
+start_servers "$QL_CMD" "CTF" "${Q3SERVERS_QL_CTF_PORTS[@]}"
 
-tmux split-window -v -t $SESSION /bin/bash
-tmux send-keys "$QL_CA_CMD" C-m
-tmux select-pane -T "QL CA 27960"
-tmux select-layout tiled
-
-tmux split-window -v -t $SESSION /bin/bash
-tmux send-keys "$QL_CTF_CMD" C-m
-tmux select-pane -T "QL CTF 27961"
-tmux select-layout tiled
-
+echo "Tmux session $Q3SERVERS_TMUX_SESSION started"
+echo "Use 'tmux attach -t $Q3SERVERS_TMUX_SESSION' to attach to the session"
+echo "or just 'tmux a' if you don't have other sessions running"
