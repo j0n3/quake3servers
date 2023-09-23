@@ -36,4 +36,6 @@ SV_HOSTNAME="^2Lan^6party $GAMETYPE $PORT"
     +set sv_master5 '' \
     +set net_port "$PORT" \
     +set sv_hostname "$SV_HOSTNAME" \
+    +set sv_dlRate 1000000 \
+    +set sv_allowDownload 1 \
     +exec server.cfg

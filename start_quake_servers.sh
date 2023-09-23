@@ -27,8 +27,6 @@ tmux -u new-session -d -s $Q3SERVERS_TMUX_SESSION /bin/bash
 
 # Start master server
 tmux send-keys "dpmaster -l 0.0.0.0:27950 -m $MY_LAN_IP=$MY_INTERNET_IP" C-m
-tmux split-window -v -t $Q3SERVERS_TMUX_SESSION /bin/bash
-tmux send-keys "htop -s PERCENT_CPU" C-m
 tmux select-pane -T "Master server"
 
 IFS=' ' read -ra Q3SERVERS_IOQ3_1V1_PORTS <<<"$Q3SERVERS_IOQ3_1V1_PORTS"

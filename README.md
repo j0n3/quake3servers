@@ -1,6 +1,6 @@
 TODO:
+- start server scripts can detect tmux session and place pane title
 
-- keep all the files (git) into any folder (like /home/lanparty/src/quake3servers)
 - Create installer symbolic lynks
     - /usr/local/games/quake3servers pointing to quake3servers repo folder
     - .service -> systemd
@@ -32,4 +32,13 @@ TODO:
     - RA3 autoexec is not loaded so can't place 200-100, falling damage... :(
 
 - NTH:
-    Web server to spawn or kill servers. Also rcon commands
+    Web:
+        Web server to spawn or kill servers. Also rcon commands?
+        Web to browse servers
+        Download links (official or hosted)
+    QL Factories
+    Publish match results on discord (screenshot?)
+    Record matches
+    Add workshop items for minqlx sounds
+    Add match stats and other minqlx plugins
+    
