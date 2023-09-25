@@ -37,4 +37,3 @@ start_servers "$QL_CMD" "CTF" "${Q3SERVERS_QL_CTF_PORTS[@]}"
 
 echo "Tmux session $Q3SERVERS_TMUX_SESSION started"
 echo "Use 'tmux attach -t $Q3SERVERS_TMUX_SESSION' to attach to the session"
-echo "or just 'tmux a' if you don't have other sessions running"

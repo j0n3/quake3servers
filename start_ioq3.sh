@@ -8,12 +8,28 @@ MY_IP=$(hostname -I | awk '{print $1}')
 
 GAMETYPE="${1,,}"
 case $GAMETYPE in
-"1v1")
+"1v1"|"1")
     FS_GAME=osp
     SERVER_CONFIG=1v1.cfg
     ;;
+"ffa")
+    FS_GAME=osp
+    SERVER_CONFIG=ffa.cfg
+    ;;
+"freezetag"|"ft")
+    FS_GAME=osp
+    SERVER_CONFIG=freezetag.cfg
+    ;;
+"instagib"|"insta")
+    FS_GAME=osp
+    SERVER_CONFIG=instagib.cfg
+    ;;
+"tdm"|"team")
+    FS_GAME=osp
+    SERVER_CONFIG=team.cfg
+    ;;
 *)
-    echo "Usage: $0 <1v1> [port]"
+    echo "Usage: $0 <1v1|1|ffa|freezetag|tf|instagib|insta|team|tdm> [port]"
     exit 1
     ;;
 esac
