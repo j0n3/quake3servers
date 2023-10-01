@@ -7,6 +7,8 @@ Features:
 - Supports Quake Live with minqlx, Quake 3 and ioQuake3
 - Spawn new server scripts detect tmux session and attach to them or launch standalone
 - Systemd service for automatic launch on startup and start/stop all of them
+- Detects used port and spawn in a free one
+- Spawn master server with dpmaster for q3 and ioq3
 
 # TODO:
 
