@@ -1,11 +1,19 @@
-Work in progress...
+Work in progress... sorry
 
-TODO:
+# Quake3Servers for quake lan parties
 
-- Create installer symbolic lynks
+Features:
+- Starts multiple servers in a tmux session
+- Supports Quake Live with minqlx, Quake 3 and ioQuake3
+- Spawn new server scripts detect tmux session and attach to them or launch standalone
+- Systemd service for automatic launch on startup and start/stop all of them
+
+# TODO:
+
+- Create installer symbolic lynks to proper locations
     - /usr/local/games/quake3servers pointing to quake3servers repo folder
     - .service -> systemd
-    - .conf -> etc
+    - .conf -> /etc
     - edit service to run launcher
 
 - Create all the installers
