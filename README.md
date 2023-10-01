@@ -1,5 +1,6 @@
+Work in progress...
+
 TODO:
-- start server scripts can detect tmux session and place pane title
 
 - Create installer symbolic lynks
     - /usr/local/games/quake3servers pointing to quake3servers repo folder
@@ -21,7 +22,7 @@ TODO:
     - extra maps
     - extra mods
 
-- Create other server mods
+- Other server mods
     - instagib
     - freeze tag
     - defrag/race
@@ -41,4 +42,3 @@ TODO:
     Record matches
     Add workshop items for minqlx sounds
     Add match stats and other minqlx plugins
-    
