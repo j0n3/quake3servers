@@ -33,12 +33,15 @@ tmux select-pane -T "Master server"
 
 # Start servers based on configurations
 for SERVER_TYPE in "${!SERVER_CMDS[@]}"; do
-	eval "SERVERS_ARRAY=(\"\${Q3SERVERS_$SERVER_TYPE[@]}\")"
-    for entry in "${SERVERS_ARRAY[@]}"; do
-        IFS=":" read -ra parts <<< "$entry"
-        GAMETYPE="${parts[0]}"
-        PORTS=("${parts[@]:1}")
-        CMD="${SERVER_CMDS[$SERVER_TYPE]}"
+    CMD="${SERVER_CMDS[$SERVER_TYPE]}"
+    
+    SERVER_ARRAY_VAR="Q3SERVERS_$SERVER_TYPE[@]"
+    SERVER_ARRAY=("${!SERVER_ARRAY_VAR}")
+    
+    for ENTRY in "${SERVER_ARRAY[@]}"; do
+        IFS=":" read -ra SPLIT_ENTRY <<< "$ENTRY"
+        GAMETYPE="${SPLIT_ENTRY[0]}"
+        PORTS=("${SPLIT_ENTRY[@]:1}")
         start_servers "$CMD" "$GAMETYPE" "${PORTS[@]}"
     done
 done
