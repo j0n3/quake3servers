@@ -32,7 +32,7 @@ tmux send-keys "dpmaster -l 0.0.0.0:27950 -m $MY_INTERNET_IP=$MY_LAN_IP" C-m
 tmux select-pane -T "Master server"
 
 # Start servers based on configurations
-for SERVER_TYPE in IOQ3 Q3 QL; do
+for SERVER_TYPE in "${!SERVER_CMDS[@]}"; do
 	eval "SERVERS_ARRAY=(\"\${Q3SERVERS_$SERVER_TYPE[@]}\")"
     for entry in "${SERVERS_ARRAY[@]}"; do
         IFS=":" read -ra parts <<< "$entry"
