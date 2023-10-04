@@ -4,8 +4,6 @@ DIR="$(dirname "$0")"
 source /etc/quake_servers.conf
 source "$DIR/common_functions.sh"
 
-MY_IP=$(hostname -I | awk '{print $1}')
-
 VENV_DIR="$Q3SERVERS_STEAM_QL_HOME/minqlx"
 
 if [ ! -d "$VENV_DIR" ]; then
@@ -26,8 +24,36 @@ case $GAMETYPE in
     SV_GAMETYPE=4
     SV_MAPPOOL_FILE=mappool_ca.txt
     ;;
+"race")
+    SV_GAMETYPE=2
+    SV_MAPPOOL_FILE=mappool_race.txt
+    ;;
+"freezetag"|"ft")
+    SV_GAMETYPE=8
+    SV_MAPPOOL_FILE=mappool.txt
+    ;;
+"ffa")
+    SV_GAMETYPE=0
+    SV_MAPPOOL_FILE=mappool.txt
+    ;;
+"duel"|"1v1")
+    SV_GAMETYPE=1
+    SV_MAPPOOL_FILE=mappool_duel.txt
+    ;;
+"harvester")
+    SV_GAMETYPE=7
+    SV_MAPPOOL_FILE=mappool.txt
+    ;;
+"tdm")
+    SV_GAMETYPE=3
+    SV_MAPPOOL_FILE=mappool_tdm.txt
+    ;;
+"domination")
+    SV_GAMETYPE=10
+    SV_MAPPOOL_FILE=mappool.txt
+    ;;
 *)
-    echo "Usage: $0 <ctf|ca> [port]"
+    echo "Usage: $0 <ctf|ca|race|freezetag|ft|ffa|duel|1v1|harvester|tdm|domination> [port]"
     exit 1
     ;;
 esac

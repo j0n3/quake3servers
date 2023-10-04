@@ -4,8 +4,6 @@ DIR="$(dirname "$0")"
 source /etc/quake_servers.conf
 source "$DIR/common_functions.sh"
 
-MY_IP=$(hostname -I | awk '{print $1}')
-
 GAMETYPE="${1,,}"
 case $GAMETYPE in
 "arena" | "ra3")
