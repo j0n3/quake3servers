@@ -54,6 +54,7 @@ START_SERVER="\"$Q3SERVERS_IOQ3_EXEC\" \
     +set sv_hostname \"$SV_HOSTNAME\" \
     +set sv_dlRate 1000000 \
     +set sv_allowDownload 1 \
+    +set sv_fps \"$Q3SERVERS_IOQ3_SV_FPS\" \
     +exec \"$SERVER_CONFIG\""
 
 tmux has-session -t "$Q3SERVERS_TMUX_SESSION" 2>/dev/null

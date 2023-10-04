@@ -48,6 +48,7 @@ START_SERVER="\"$Q3SERVERS_STEAM_QL_HOME/run_server_x64_minqlx.sh\" +set net_por
     +set qlx_owner \"$Q3SERVERS_QLX_OWNER\" \
     +set qlx_plugins \"$Q3SERVERS_QLX_PLUGINS\" \
     +set sv_mapPoolFile \"$SV_MAPPOOL_FILE\" \
+    +set sv_fps  \"$Q3SERVERS_QL_SV_FPS\" \
     +set sv_master2 '' \
     +set sv_master3 '' \
     +set sv_master4 '' \
