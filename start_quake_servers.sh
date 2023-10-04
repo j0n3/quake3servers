@@ -26,11 +26,12 @@ start_servers() {
 tmux -u new-session -d -s $Q3SERVERS_TMUX_SESSION /bin/bash
 
 # Start master server
-tmux send-keys "dpmaster -l 0.0.0.0:27950 -m $MY_LAN_IP=$MY_INTERNET_IP" C-m
+tmux send-keys "dpmaster -l 0.0.0.0:27950 -m $MY_INTERNET_IP=$MY_LAN_IP" C-m
 tmux select-pane -T "Master server"
 
 # Start servers
 start_servers "$IOQ3_CMD" "1v1" "${Q3SERVERS_IOQ3_1V1_PORTS[@]}"
+start_servers "$IOQ3_CMD" "FFA" "${Q3SERVERS_IOQ3_FFA_PORTS[@]}"
 start_servers "$Q3_CMD" "RA3" "${Q3SERVERS_Q3_RA3_PORTS[@]}"
 start_servers "$QL_CMD" "CA" "${Q3SERVERS_QL_CA_PORTS[@]}"
 start_servers "$QL_CMD" "CTF" "${Q3SERVERS_QL_CTF_PORTS[@]}"

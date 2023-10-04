@@ -19,7 +19,7 @@ esac
 
 PORT=$(get_port "$2")
 
-SV_HOSTNAME="^2Lan^6party $GAMETYPE $PORT"
+SV_HOSTNAME="$GAMETYPE $PORT"
 
 START_SERVER="\"$Q3SERVERS_Q3_EXEC\" \
     +set fs_game \"$FS_GAME\" \

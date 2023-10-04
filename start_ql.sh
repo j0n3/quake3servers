@@ -34,7 +34,7 @@ esac
 
 PORT=$(get_port "$2")
 
-SV_HOSTNAME="^2Lan^6party $GAMETYPE $PORT"
+SV_HOSTNAME="$GAMETYPE $PORT"
 
 START_SERVER="\"$Q3SERVERS_STEAM_QL_HOME/run_server_x64_minqlx.sh\" +set net_port \"$PORT\" \
     +set sv_hostname \"$SV_HOSTNAME\" \
