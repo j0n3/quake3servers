@@ -12,7 +12,7 @@ Features:
 
 # TODO:
 
-- Create installer symbolic lynks to proper locations
+- Create installer symbolic links to proper locations
     - /usr/local/games/quake3servers pointing to quake3servers repo folder
     - .service -> systemd
     - .conf -> /etc
