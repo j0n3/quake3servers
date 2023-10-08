@@ -6,6 +6,15 @@ exit
 # Install system dependencies
 sudo apt install tmux git python3 python3-pip python3-redis build-essential zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libsqlite3-dev libreadline-dev libffi-dev curl libbz2-dev gcc lib32gcc-s1 ca-certificates python3-distutils python3-dev ioquake3 quake3
 
+
+# Setup q3
+
+# Setup ioquake3
+
+# Install Steam and Quake Live
+
+    # Clone minqlx and minqlx-plugins
+
 # Setup avahi
 
 # Add hostname to /etc/hosts if not present

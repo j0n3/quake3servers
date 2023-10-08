@@ -17,3 +17,7 @@ get_port() {
     fi
     echo $PORT
 }
+
+get_my_lan_ip() {
+    echo $(hostname -I | awk '{print $1}')
+}

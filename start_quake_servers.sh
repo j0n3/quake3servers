@@ -1,8 +1,10 @@
 #!/bin/bash
 
+DIR="$(dirname "$0")"
 source /etc/quake_servers.conf
+source "$DIR/common_functions.sh"
 
-MY_LAN_IP=$(hostname -I | awk '{print $1}')
+MY_LAN_IP=$(get_my_lan_ip)
 MY_INTERNET_IP=$(curl -s https://ipecho.net/plain)
 
 declare -A SERVER_CMDS=(

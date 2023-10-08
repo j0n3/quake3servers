@@ -18,6 +18,7 @@ esac
 PORT=$(get_port "$2")
 
 SV_HOSTNAME="$GAMETYPE $PORT"
+MY_LAN_IP=$(get_my_lan_ip)
 
 START_SERVER="\"$Q3SERVERS_Q3_EXEC\" \
     +set fs_game \"$FS_GAME\" \
@@ -27,7 +28,7 @@ START_SERVER="\"$Q3SERVERS_Q3_EXEC\" \
     +set bot_enable 0 \
     +set sv_punkbuster 0 \
     +set dedicated 2 \
-    +set sv_master1 \"$MY_IP:$Q3SERVERS_DPMASTER_PORT\" \
+    +set sv_master1 \"$MY_LAN_IP:$Q3SERVERS_DPMASTER_PORT\" \
     +set sv_master2 '' \
     +set sv_master3 '' \
     +set sv_master4 '' \
