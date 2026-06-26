@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euo pipefail
 
 DIR="$(dirname "$0")"
 source /etc/quake_servers.conf
@@ -10,11 +11,12 @@ if [ ! -d "$VENV_DIR" ]; then
     python3 -m venv "$VENV_DIR"
 fi
 
-if [ "$VIRTUAL_ENV" != "$VENV_DIR" ]; then
+if [ "${VIRTUAL_ENV:-}" != "$VENV_DIR" ]; then
     source "$VENV_DIR/bin/activate"
 fi
 
-GAMETYPE="${1,,}"
+GAMETYPE="${1:-}"
+GAMETYPE="${GAMETYPE,,}"
 case $GAMETYPE in
 "ctf")
     SV_GAMETYPE=5
@@ -58,14 +60,20 @@ case $GAMETYPE in
     ;;
 esac
 
-PORT=$(get_port "$2")
+PORT=$(get_port "${2:-}")
 
 SV_HOSTNAME="$GAMETYPE $PORT"
+
+LOGDIR="${Q3SERVERS_LOG_DIR:-$Q3SERVERS_HOME/logs}"
+mkdir -p "$LOGDIR"
+LOGFILE="$LOGDIR/ql-${GAMETYPE}-${PORT}.log"
 
 START_SERVER="\"$Q3SERVERS_STEAM_QL_HOME/run_server_x64_minqlx.sh\" +set net_port \"$PORT\" \
     +set sv_hostname \"$SV_HOSTNAME\" \
     +set sv_serverType 2 \
-    +set g_password \"$Q3SERVERS_PASSWORD\" +sv_fps \"$Q3SERVERS_QL_SV_FPS\" \
+    +set g_password \"$Q3SERVERS_PASSWORD\" \
+    +set rconpassword \"$Q3SERVERS_RCON_PASSWORD\" \
+    +sv_fps \"$Q3SERVERS_QL_SV_FPS\" \
     +set g_gametype \"$SV_GAMETYPE\" \
     +set qlx_redisAddress \"$Q3SERVERS_REDIS_HOST\" \
     +set qlx_redisPort \"$Q3SERVERS_REDIS_PORT\" \
@@ -78,10 +86,9 @@ START_SERVER="\"$Q3SERVERS_STEAM_QL_HOME/run_server_x64_minqlx.sh\" +set net_por
     +set sv_master2 '' \
     +set sv_master3 '' \
     +set sv_master4 '' \
-    +set sv_master5 ''"
+    +set sv_master5 '' 2>&1 | tee -a \"$LOGFILE\""
 
-tmux has-session -t "$Q3SERVERS_TMUX_SESSION" 2>/dev/null
-if [ $? -eq 0 ] && [ -z "$TMUX" ]; then
+if tmux has-session -t "$Q3SERVERS_TMUX_SESSION" 2>/dev/null && [ -z "${TMUX:-}" ]; then
     tmux split-window -v -t "$Q3SERVERS_TMUX_SESSION" /bin/bash
     tmux send-keys "$START_SERVER" C-m
     tmux select-pane -T "QL ${GAMETYPE} ${PORT}"

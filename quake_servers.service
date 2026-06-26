@@ -3,10 +3,10 @@ Description=Start Quake Servers in tmux session (QuakeServers)
 After=network.target
 
 [Service]
-EnvironmentFile=/etc/quake_servers.conf
+EnvironmentFile=/etc/quake_servers.env
 Type=forking
 User=lanparty
-WorkingDirectory=
+WorkingDirectory=/usr/local/games/quake3servers
 ExecStart=/usr/local/games/quake3servers/start_quake_servers.sh
 ExecStop=tmux kill-session -t ${Q3SERVERS_TMUX_SESSION}
 Restart=on-failure

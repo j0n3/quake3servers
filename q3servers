@@ -1,0 +1,84 @@
+#!/bin/bash
+#
+# q3servers — control CLI for the Quake3Servers LAN setup.
+#
+#   q3servers status              show systemd + tmux session state
+#   q3servers list                list running servers (tmux panes)
+#   q3servers attach              attach to the tmux session
+#   q3servers start|stop|restart  control the systemd service
+#   q3servers add <game> <mode> [port]
+#                                 spawn one server (game: ioq3|q3|ql)
+#   q3servers logs [name]         tail a server log (name = log filename stem)
+#
+# tmux/attach/add operate on the service user's session — run them as that user
+# (e.g. `sudo -u lanparty q3servers attach`). start/stop/restart use systemd.
+set -euo pipefail
+
+DIR="$(cd "$(dirname "$(readlink -f "$0")")" && pwd)"
+if [ -f /etc/quake_servers.conf ]; then
+    source /etc/quake_servers.conf
+else
+    source "$DIR/quake_servers.conf"
+fi
+source "$DIR/common_functions.sh"
+
+SESSION="$Q3SERVERS_TMUX_SESSION"
+LOGDIR="${Q3SERVERS_LOG_DIR:-$Q3SERVERS_HOME/logs}"
+
+usage() { awk 'NR==1{next} /^#/{sub(/^# ?/,"");print;next} {exit}' "$0"; }
+
+cmd_status() {
+    systemctl status quake_servers.service --no-pager 2>/dev/null || true
+    echo
+    if tmux has-session -t "$SESSION" 2>/dev/null; then
+        echo "tmux session '$SESSION' is running:"
+        cmd_list
+    else
+        echo "tmux session '$SESSION' is not running."
+    fi
+}
+
+cmd_list() {
+    tmux has-session -t "$SESSION" 2>/dev/null || { echo "No session '$SESSION'."; return; }
+    tmux list-panes -t "$SESSION" -F '#{pane_index}  #{pane_title}'
+}
+
+cmd_attach() {
+    exec tmux attach -t "$SESSION"
+}
+
+cmd_add() {
+    local game="${1:-}" mode="${2:-}" port="${3:-}"
+    case "$game" in
+        ioq3) "$Q3SERVERS_HOME/start_ioq3.sh" "$mode" "$port" ;;
+        q3)   "$Q3SERVERS_HOME/start_q3.sh"   "$mode" "$port" ;;
+        ql)   "$Q3SERVERS_HOME/start_ql.sh"   "$mode" "$port" ;;
+        *)    echo "Usage: q3servers add <ioq3|q3|ql> <mode> [port]"; exit 1 ;;
+    esac
+}
+
+cmd_logs() {
+    local name="${1:-}"
+    if [ -z "$name" ]; then
+        echo "Available logs in $LOGDIR:"
+        ls -1 "$LOGDIR" 2>/dev/null || echo "  (none)"
+        echo "Usage: q3servers logs <name>"
+        return
+    fi
+    local f="$LOGDIR/$name"
+    [ -f "$f" ] || f="$LOGDIR/$name.log"
+    exec tail -f "$f"
+}
+
+case "${1:-}" in
+    status)  cmd_status ;;
+    list)    cmd_list ;;
+    attach)  cmd_attach ;;
+    start)   exec systemctl start quake_servers.service ;;
+    stop)    exec systemctl stop quake_servers.service ;;
+    restart) exec systemctl restart quake_servers.service ;;
+    add)     shift; cmd_add "$@" ;;
+    logs)    shift; cmd_logs "$@" ;;
+    -h|--help|help|"") usage ;;
+    *) echo "Unknown command: $1"; usage; exit 1 ;;
+esac

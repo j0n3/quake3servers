@@ -1,10 +1,12 @@
 #!/bin/bash
+set -euo pipefail
 
 DIR="$(dirname "$0")"
 source /etc/quake_servers.conf
 source "$DIR/common_functions.sh"
 
-GAMETYPE="${1,,}"
+GAMETYPE="${1:-}"
+GAMETYPE="${GAMETYPE,,}"
 case $GAMETYPE in
 "arena" | "ra3")
     FS_GAME=arena
@@ -15,14 +17,19 @@ case $GAMETYPE in
     ;;
 esac
 
-PORT=$(get_port "$2")
+PORT=$(get_port "${2:-}")
 
 SV_HOSTNAME="$GAMETYPE $PORT"
 MY_LAN_IP=$(get_my_lan_ip)
 
+LOGDIR="${Q3SERVERS_LOG_DIR:-$Q3SERVERS_HOME/logs}"
+mkdir -p "$LOGDIR"
+LOGFILE="$LOGDIR/q3-${GAMETYPE}-${PORT}.log"
+
 START_SERVER="\"$Q3SERVERS_Q3_EXEC\" \
     +set fs_game \"$FS_GAME\" \
     +set sv_password \"$Q3SERVERS_PASSWORD\" \
+    +set rconpassword \"$Q3SERVERS_RCON_PASSWORD\" \
     +set vm_game 0 \
     +set sv_pure 0 \
     +set bot_enable 0 \
@@ -38,13 +45,12 @@ START_SERVER="\"$Q3SERVERS_Q3_EXEC\" \
     +set sv_dlRate 1000000 \
     +set sv_allowDownload 1 \
     +set sv_fps \"$Q3SERVERS_Q3_SV_FPS\" \
-    +exec server.cfg"
+    +exec server.cfg 2>&1 | tee -a \"$LOGFILE\""
 
-tmux has-session -t "$Q3SERVERS_TMUX_SESSION" 2>/dev/null
-if [ $? -eq 0 ] && [ -z "$TMUX" ]; then
+if tmux has-session -t "$Q3SERVERS_TMUX_SESSION" 2>/dev/null && [ -z "${TMUX:-}" ]; then
     tmux split-window -v -t "$Q3SERVERS_TMUX_SESSION" /bin/bash
     tmux send-keys "$START_SERVER" C-m
-    tmux select-pane -T "QL ${GAMETYPE} ${PORT}"
+    tmux select-pane -T "Q3 ${GAMETYPE} ${PORT}"
     tmux select-layout tiled
     echo "Server added to tmux session $Q3SERVERS_TMUX_SESSION"
 else

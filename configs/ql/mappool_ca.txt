@@ -1,0 +1,12 @@
+# Quake Live map pool — Clan Arena (ca)
+# Format: one "mapname factory" per line (factory optional). Copy this file
+# into the QLDS dir referenced by sv_mapPoolFile. Verify each map is installed
+# (some require Steam Workshop items).
+bloodrun ca
+campgrounds ca
+furiousheights ca
+hektik ca
+toxicity ca
+wallbang ca
+asylum ca
+almostlost ca

@@ -1,0 +1,5 @@
+# Quake Live map pool — Race
+# Format: one "mapname factory" per line. Race uses dedicated race maps;
+# verify availability (many come from Steam Workshop). Copy into the QLDS dir.
+toxicity race
+bloodrun race

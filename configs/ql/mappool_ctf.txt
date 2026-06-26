@@ -1,0 +1,7 @@
+# Quake Live map pool — Capture the Flag (ctf)
+# Format: one "mapname factory" per line. Copy into the QLDS dir.
+courtyard ctf
+troubledwaters ctf
+spidercrossings ctf
+japanesecastles ctf
+gradeschool ctf

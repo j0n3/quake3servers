@@ -1,0 +1,9 @@
+# Quake Live map pool — generic fallback (ffa, freezetag, harvester, domination)
+# Format: one "mapname factory" per line. Copy into the QLDS dir.
+campgrounds ffa
+bloodrun ffa
+hektik ffa
+deepinside ffa
+houseofdecay ffa
+overkill ffa
+asylum ffa

@@ -1,0 +1,24 @@
+name: shellcheck
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install shellcheck
+        run: sudo apt-get update && sudo apt-get install -y shellcheck
+
+      - name: bash -n (syntax check)
+        run: |
+          for f in install.sh q3servers start_*.sh common_functions.sh; do
+            echo "== $f =="
+            bash -n "$f"
+          done
+
+      - name: shellcheck
+        run: shellcheck -S warning install.sh q3servers start_*.sh common_functions.sh

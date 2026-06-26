@@ -1,0 +1,9 @@
+# Quake Live map pool — Duel (1v1)
+# Format: one "mapname factory" per line. Copy into the QLDS dir.
+aerowalk duel
+bloodrun duel
+hektik duel
+furiousheights duel
+toxicity duel
+lostworld duel
+ironworks duel

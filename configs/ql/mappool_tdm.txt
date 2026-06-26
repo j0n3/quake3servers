@@ -1,0 +1,7 @@
+# Quake Live map pool — Team Deathmatch (tdm)
+# Format: one "mapname factory" per line. Copy into the QLDS dir.
+campgrounds tdm
+asylum tdm
+almostlost tdm
+deepinside tdm
+houseofdecay tdm
