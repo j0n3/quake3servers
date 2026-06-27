@@ -1,3 +1,5 @@
+# shellcheck shell=bash
+# Shared helpers, sourced by the start scripts (no shebang: not executed directly).
 
 port_in_use() {
     # Quake servers listen on UDP, so probe UDP. Falls back to a TCP probe
