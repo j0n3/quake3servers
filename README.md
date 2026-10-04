@@ -159,18 +159,19 @@ tmux-based commands (`list`, `attach`, `add`) run as the service user, e.g.
 
 # TODO:
 
-- Quake 3 retail data + 1.32 point release (manual: copyrighted)
-    - ra3 (Rocket Arena 3)
-    - RA3 autoexec is not loaded so can't place 200-100, falling damage... :(
-- ioquake3 osp mod + extra maps
-- Verify minqlx build artifacts layout on target box
-- config files (per-gametype .cfg), extra maps, extra mods
+- Quake 3 / RA3
+    - RA3 autoexec not loaded (can't set 200-100, falling damage...). Retest:
+      may have been caused by the missing `fs_basepath` (fixed in e9c9766)
+- ioquake3: OSP mod + extra maps
+- Verify minqlx build artifacts layout on target box (installer copies `bin/*` blindly)
+- Verify `configs/ioq3/instagib.cfg` and `freezetag.cfg` on a real server:
+  `osp_instagib` / `osp_gametype` are unverified, and OSP may not support freeze
+  tag at all (may need the Freeze Tag / UFreeze mod instead)
+- Extra maps and mods
 
 - Other server mods
-    - instagib
-    - freeze tag
-    - defrag/race
-    - red rover
+    - defrag (q3/ioq3)
+    - red rover (QL: add as a mode in `start_ql.sh`)
     - More mods for QL (requires workshop items) https://steamcommunity.com/app/282440/discussions/0/490125103624446696/
 
 - NTH:
