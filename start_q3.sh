@@ -27,6 +27,7 @@ mkdir -p "$LOGDIR"
 LOGFILE="$LOGDIR/q3-${GAMETYPE}-${PORT}.log"
 
 START_SERVER="\"$Q3SERVERS_Q3_EXEC\" \
+    +set fs_basepath \"$(dirname "$Q3SERVERS_Q3_EXEC")\" \
     +set fs_game \"$FS_GAME\" \
     +set sv_password \"$Q3SERVERS_PASSWORD\" \
     +set rconpassword \"$Q3SERVERS_RCON_PASSWORD\" \

@@ -1,5 +1,5 @@
 # Quake Live map pool — Capture the Flag (ctf)
-# Format: one "mapname factory" per line. Copy into the QLDS dir.
+# Format: one "mapname factory" per line. Copy into <QLDS dir>/baseq3/.
 courtyard ctf
 troubledwaters ctf
 spidercrossings ctf

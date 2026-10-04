@@ -1,5 +1,5 @@
 # Quake Live map pool — Duel (1v1)
-# Format: one "mapname factory" per line. Copy into the QLDS dir.
+# Format: one "mapname factory" per line. Copy into <QLDS dir>/baseq3/.
 aerowalk duel
 bloodrun duel
 hektik duel
